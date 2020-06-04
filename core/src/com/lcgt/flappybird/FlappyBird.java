@@ -44,8 +44,10 @@ public class FlappyBird extends ApplicationAdapter {
                 velocity = -30;
             }
 
-            velocity++;
-            birdY -= velocity;
+            if (birdY > 0 || velocity < 0) {
+                velocity++;
+                birdY -= velocity;
+            }
         } else {
             if (Gdx.input.justTouched()) {
                 gameState = 1;
