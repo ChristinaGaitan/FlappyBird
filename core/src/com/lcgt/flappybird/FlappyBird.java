@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
 
@@ -43,6 +44,8 @@ public class FlappyBird extends ApplicationAdapter {
 
     Circle birdCircle;
     ShapeRenderer shapeRenderer;
+    Rectangle[] topTubeRectangles;
+    Rectangle[] bottomTubeRectangles;
 
     @Override
     public void create () {
@@ -72,13 +75,17 @@ public class FlappyBird extends ApplicationAdapter {
 
         distanceBetweenTubes = screenWidth * 3 / 4;
 
+        birdCircle = new Circle();
+        shapeRenderer = new ShapeRenderer();
+        topTubeRectangles = new Rectangle[numberOfTubes];
+        bottomTubeRectangles = new Rectangle[numberOfTubes];
+
         for(int i=0; i < numberOfTubes; i++) {
             tubeOffset[i] = (randomGenerator.nextFloat() - 0.5f) * (screenHeight - gap - 200);
             tubeX[i] = screenWidth / 2 - topTube.getWidth() / 2 + i * distanceBetweenTubes;
+            topTubeRectangles[i] = new Rectangle();
+            bottomTubeRectangles[i] = new Rectangle();
         }
-
-        birdCircle = new Circle();
-        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
@@ -104,6 +111,9 @@ public class FlappyBird extends ApplicationAdapter {
 
                 batch.draw(topTube, tubeX[i], topTubeY + tubeOffset[i]);
                 batch.draw(bottomTube, tubeX[i], bottomTubeY + tubeOffset[i]);
+
+                topTubeRectangles[i] = new Rectangle(tubeX[i], topTubeY + tubeOffset[i], topTube.getWidth(), topTube.getHeight());
+                topTubeRectangles[i] = new Rectangle(tubeX[i], bottomTubeY + tubeOffset[i], bottomTube.getWidth(), bottomTube.getHeight());
             }
 
             if (birdY > 0 || velocity < 0) {
@@ -130,6 +140,16 @@ public class FlappyBird extends ApplicationAdapter {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.circle(birdCircle.x, birdCircle.y, birdCircle.radius);
+
+        for(int i=0; i < numberOfTubes; i++) {
+
+//            topTubeRectangles[i] = new Rectangle(tubeX[i], topTubeY + tubeOffset[i], topTube.getWidth(), topTube.getHeight());
+//            topTubeRectangles[i] = new Rectangle(tubeX[i], bottomTubeY + tubeOffset[i], bottomTube.getWidth(), bottomTube.getHeight());
+
+            shapeRenderer.rect(tubeX[i], topTubeY + tubeOffset[i], topTube.getWidth(), topTube.getHeight());
+            shapeRenderer.rect(tubeX[i], bottomTubeY + tubeOffset[i], bottomTube.getWidth(), bottomTube.getHeight());
+        }
+
         shapeRenderer.end();
 
     }
