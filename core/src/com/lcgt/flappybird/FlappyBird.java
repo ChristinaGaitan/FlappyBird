@@ -44,7 +44,7 @@ public class FlappyBird extends ApplicationAdapter {
     float distanceBetweenTubes;
 
     Circle birdCircle;
-    ShapeRenderer shapeRenderer;
+//    ShapeRenderer shapeRenderer;
     Rectangle[] topTubeRectangles;
     Rectangle[] bottomTubeRectangles;
 
@@ -77,7 +77,7 @@ public class FlappyBird extends ApplicationAdapter {
         distanceBetweenTubes = screenWidth * 3 / 4;
 
         birdCircle = new Circle();
-        shapeRenderer = new ShapeRenderer();
+//        shapeRenderer = new ShapeRenderer();
         topTubeRectangles = new Rectangle[numberOfTubes];
         bottomTubeRectangles = new Rectangle[numberOfTubes];
 
@@ -138,14 +138,14 @@ public class FlappyBird extends ApplicationAdapter {
         batch.end();
 
         birdCircle.set(screenWidth / 2, birdY + birds[flpstate].getHeight() / 2, birds[flpstate].getWidth() / 2);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.circle(birdCircle.x, birdCircle.y, birdCircle.radius);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.setColor(Color.RED);
+//        shapeRenderer.circle(birdCircle.x, birdCircle.y, birdCircle.radius);
 
         for(int i=0; i < numberOfTubes; i++) {
 
-            shapeRenderer.rect(tubeX[i], topTubeY + tubeOffset[i], topTube.getWidth(), topTube.getHeight());
-            shapeRenderer.rect(tubeX[i], bottomTubeY + tubeOffset[i], bottomTube.getWidth(), bottomTube.getHeight());
+//            shapeRenderer.rect(tubeX[i], topTubeY + tubeOffset[i], topTube.getWidth(), topTube.getHeight());
+//            shapeRenderer.rect(tubeX[i], bottomTubeY + tubeOffset[i], bottomTube.getWidth(), bottomTube.getHeight());
 
             if(Intersector.overlaps(birdCircle, topTubeRectangles[i]) || Intersector.overlaps(birdCircle, bottomTubeRectangles[i])) {
                 Gdx.app.log("Collision", "Yes");
@@ -153,7 +153,7 @@ public class FlappyBird extends ApplicationAdapter {
 
         }
 
-        shapeRenderer.end();
+//        shapeRenderer.end();
 
     }
 
