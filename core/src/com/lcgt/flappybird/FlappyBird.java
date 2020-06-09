@@ -23,18 +23,20 @@ public class FlappyBird extends ApplicationAdapter {
 
     Texture topTube;
     Texture bottomTube;
-    float topTubeX = 0;
     float topTubeY = 0;
-    float bottomTubeX = 0;
     float bottomTubeY = 0;
 
     Random randomGenerator;
     float gap = 400;
     float maxTubeOffset = 0;
-    float tubeOffset = 0;
 
-    float tubeVelocity = 4;
-    float tubeX;
+
+    int tubeVelocity = 4;
+
+    int numberOfTubes = 4;
+    float[] tubeX = new float[numberOfTubes];
+    float[] tubeOffset = new float[numberOfTubes];
+    float distanceBetweenTubes;
 
     @Override
     public void create () {
@@ -61,6 +63,13 @@ public class FlappyBird extends ApplicationAdapter {
 
         maxTubeOffset = screenHeight - (gap / 2) - 100;
         randomGenerator = new Random();
+
+        distanceBetweenTubes = screenWidth * 3 / 4;
+
+        for(int i=0; i < numberOfTubes; i++) {
+            tubeOffset[i] = (randomGenerator.nextFloat() - 0.5f) * (screenHeight - gap - 200);
+            tubeX[i] = screenWidth / 2 - topTube.getWidth() / 2 + i * distanceBetweenTubes;
+        }
     }
 
     @Override
@@ -72,15 +81,20 @@ public class FlappyBird extends ApplicationAdapter {
             // Game has started
             if (Gdx.input.justTouched()) {
                 velocity = -30;
-
-                tubeOffset = (randomGenerator.nextFloat() - 0.5f) * (screenHeight - gap - 200);
-                tubeX = screenWidth / 2 - topTube.getWidth() / 2;
             }
-            tubeX = tubeX - 4;
 
-            batch.draw(topTube, tubeX, topTubeY + tubeOffset);
-            batch.draw(bottomTube, tubeX, bottomTubeY + tubeOffset);
+            for(int i=0; i < numberOfTubes; i++) {
 
+                if(tubeX[i] < - topTube.getWidth()) {
+                    // Last tube is at the edge of the screen
+                    tubeX[i] = numberOfTubes * distanceBetweenTubes;
+                } else {
+                    tubeX[i] = tubeX[i] - tubeVelocity;
+                }
+
+                batch.draw(topTube, tubeX[i], topTubeY + tubeOffset[i]);
+                batch.draw(bottomTube, tubeX[i], bottomTubeY + tubeOffset[i]);
+            }
 
             if (birdY > 0 || velocity < 0) {
                 velocity++;
