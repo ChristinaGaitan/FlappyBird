@@ -33,6 +33,9 @@ public class FlappyBird extends ApplicationAdapter {
     float maxTubeOffset = 0;
     float tubeOffset = 0;
 
+    float tubeVelocity = 4;
+    float tubeX;
+
     @Override
     public void create () {
         batch = new SpriteBatch();
@@ -52,9 +55,8 @@ public class FlappyBird extends ApplicationAdapter {
         birdX = screenWidth / 2 - birdWidth / 2;
         birdY = screenHeight / 2 - birdHeight / 2;
 
-        topTubeX = screenWidth / 2 - topTube.getWidth() / 2;
+
         topTubeY = screenHeight / 2 + gap / 2;
-        bottomTubeX = (screenWidth / 2) - (topTube.getWidth() / 2);
         bottomTubeY = (screenHeight / 2) - (gap / 2) - bottomTube.getHeight();
 
         maxTubeOffset = screenHeight - (gap / 2) - 100;
@@ -72,10 +74,12 @@ public class FlappyBird extends ApplicationAdapter {
                 velocity = -30;
 
                 tubeOffset = (randomGenerator.nextFloat() - 0.5f) * (screenHeight - gap - 200);
+                tubeX = screenWidth / 2 - topTube.getWidth() / 2;
             }
+            tubeX = tubeX - 4;
 
-            batch.draw(topTube, topTubeX, topTubeY + tubeOffset);
-            batch.draw(bottomTube, bottomTubeX, bottomTubeY + tubeOffset);
+            batch.draw(topTube, tubeX, topTubeY + tubeOffset);
+            batch.draw(bottomTube, tubeX, bottomTubeY + tubeOffset);
 
 
             if (birdY > 0 || velocity < 0) {
