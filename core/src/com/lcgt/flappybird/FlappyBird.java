@@ -2,8 +2,11 @@ package com.lcgt.flappybird;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 
 import java.util.Random;
 
@@ -38,6 +41,9 @@ public class FlappyBird extends ApplicationAdapter {
     float[] tubeOffset = new float[numberOfTubes];
     float distanceBetweenTubes;
 
+    Circle birdCircle;
+    ShapeRenderer shapeRenderer;
+
     @Override
     public void create () {
         batch = new SpriteBatch();
@@ -70,6 +76,9 @@ public class FlappyBird extends ApplicationAdapter {
             tubeOffset[i] = (randomGenerator.nextFloat() - 0.5f) * (screenHeight - gap - 200);
             tubeX[i] = screenWidth / 2 - topTube.getWidth() / 2 + i * distanceBetweenTubes;
         }
+
+        birdCircle = new Circle();
+        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
@@ -114,9 +123,15 @@ public class FlappyBird extends ApplicationAdapter {
             flpstate = 0;
         }
 
-
         batch.draw(birds[flpstate], birdX, birdY);
         batch.end();
+
+        birdCircle.set(screenWidth / 2, birdY + birds[flpstate].getHeight() / 2, birds[flpstate].getWidth() / 2);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.circle(birdCircle.x, birdCircle.y, birdCircle.radius);
+        shapeRenderer.end();
+
     }
 
     @Override
