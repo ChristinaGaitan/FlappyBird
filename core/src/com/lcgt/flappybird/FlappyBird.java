@@ -2,7 +2,6 @@ package com.lcgt.flappybird;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -20,6 +19,15 @@ public class FlappyBird extends ApplicationAdapter {
 
     int gameState = 0;
 
+    Texture topTube;
+    Texture bottomTube;
+    float topTubeX = 0;
+    float topTubeY = 0;
+    float bottomTubeX = 0;
+    float bottomTubeY = 0;
+
+    float gap = 400;
+
     @Override
     public void create () {
         batch = new SpriteBatch();
@@ -28,6 +36,9 @@ public class FlappyBird extends ApplicationAdapter {
         birds[0] = new Texture("bird.png");
         birds[1] = new Texture("bird2.png");
 
+        topTube = new Texture("toptube.png");
+        bottomTube = new Texture("bottomtube.png");
+
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
@@ -35,11 +46,24 @@ public class FlappyBird extends ApplicationAdapter {
         float birdHeight = birds[0].getHeight();
         birdX = screenWidth / 2 - birdWidth / 2;
         birdY = screenHeight / 2 - birdHeight / 2;
+
+        topTubeX = screenWidth / 2 - topTube.getWidth() / 2;
+        topTubeY = screenHeight / 2 + gap / 2;
+
+        bottomTubeX = (screenWidth / 2) - (topTube.getWidth() / 2);
+        bottomTubeY = (screenHeight / 2) - (gap / 2) - bottomTube.getHeight();
     }
 
     @Override
     public void render () {
+        batch.begin();
+        batch.draw(background, 0, 0, screenWidth, screenHeight);
+
         if (gameState != 0) {
+            // Game has started
+            batch.draw(topTube, topTubeX, topTubeY);
+            batch.draw(bottomTube, bottomTubeX, bottomTubeY);
+
             if (Gdx.input.justTouched()) {
                 velocity = -30;
             }
@@ -61,8 +85,7 @@ public class FlappyBird extends ApplicationAdapter {
             flpstate = 0;
         }
 
-        batch.begin();
-        batch.draw(background, 0, 0, screenWidth, screenHeight);
+
         batch.draw(birds[flpstate], birdX, birdY);
         batch.end();
     }
