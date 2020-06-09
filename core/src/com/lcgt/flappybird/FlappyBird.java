@@ -87,6 +87,7 @@ public class FlappyBird extends ApplicationAdapter {
 
                 if(tubeX[i] < - topTube.getWidth()) {
                     // Last tube is at the edge of the screen
+                    tubeOffset[i] = (randomGenerator.nextFloat() - 0.5f) * (screenHeight - gap - 200);
                     tubeX[i] = numberOfTubes * distanceBetweenTubes;
                 } else {
                     tubeX[i] = tubeX[i] - tubeVelocity;
