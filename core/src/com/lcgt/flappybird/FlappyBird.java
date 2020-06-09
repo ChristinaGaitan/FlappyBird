@@ -83,7 +83,7 @@ public class FlappyBird extends ApplicationAdapter {
 
         for(int i=0; i < numberOfTubes; i++) {
             tubeOffset[i] = (randomGenerator.nextFloat() - 0.5f) * (screenHeight - gap - 200);
-            tubeX[i] = screenWidth / 2 - topTube.getWidth() / 2 + i * distanceBetweenTubes;
+            tubeX[i] = screenWidth / 2 - topTube.getWidth() / 2 + screenWidth + i * distanceBetweenTubes;
             topTubeRectangles[i] = new Rectangle();
             bottomTubeRectangles[i] = new Rectangle();
         }
