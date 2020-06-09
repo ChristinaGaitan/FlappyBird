@@ -48,6 +48,9 @@ public class FlappyBird extends ApplicationAdapter {
     Rectangle[] topTubeRectangles;
     Rectangle[] bottomTubeRectangles;
 
+    int score = 0;
+    int scoringTube = 0;
+
     @Override
     public void create () {
         batch = new SpriteBatch();
@@ -94,6 +97,17 @@ public class FlappyBird extends ApplicationAdapter {
         batch.begin();
         batch.draw(background, 0, 0, screenWidth, screenHeight);
 
+        if(tubeX[scoringTube] < screenWidth / 2) {
+            score++;
+            Gdx.app.log("Score", String.valueOf(score));
+
+            if(scoringTube < numberOfTubes-1) {
+                scoringTube++;
+            } else {
+                scoringTube = 0;
+            }
+        }
+
         if (gameState != 0) {
             // Game has started
             if (Gdx.input.justTouched()) {
@@ -107,6 +121,7 @@ public class FlappyBird extends ApplicationAdapter {
                     tubeOffset[i] = (randomGenerator.nextFloat() - 0.5f) * (screenHeight - gap - 200);
                     tubeX[i] = numberOfTubes * distanceBetweenTubes;
                 } else {
+
                     tubeX[i] = tubeX[i] - tubeVelocity;
                 }
 
@@ -138,6 +153,7 @@ public class FlappyBird extends ApplicationAdapter {
         batch.end();
 
         birdCircle.set(screenWidth / 2, birdY + birds[flpstate].getHeight() / 2, birds[flpstate].getWidth() / 2);
+
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 //        shapeRenderer.setColor(Color.RED);
 //        shapeRenderer.circle(birdCircle.x, birdCircle.y, birdCircle.radius);
